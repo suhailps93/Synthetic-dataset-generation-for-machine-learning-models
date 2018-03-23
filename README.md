@@ -37,6 +37,9 @@ The image_grabber ROS package helps in generating the fake simulated images from
 
 ![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/gazebo_simulation.gif)
 
+Example output images fromthe Gazebo simulationis shown below
+![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/gazebo_output.png)
+
 ##### Step 5: Add random backgrounds to Images and prepare the dataset.
 Gazebo give images with empty backgrounds, which is not a good dataset for training object recognition models. The bounding_n_background.py program performs the following tasks.
 - Reads the output images from gazebo, crops out only the object of interest from the images using OpenCV, and paste the cropped objects to random images provided as input, so that the machine learning model will be more robust in recognising the object within a lot of other objects.Some example images are shown below
@@ -45,6 +48,12 @@ Gazebo give images with empty backgrounds, which is not a good dataset for train
 Now the generate_tfrecord.py program reads the .csv files and generates this data in tfrecord file format, which is the input type that is used for training tensorflow object recognition API.
 
 
-##### Step 8: Live detection
+##### Step 6: Training a machine learning  model.
+Tensorflow object detection API was used for demonstration purpose. The train.py program starts the training process. 
+The graph showing the total loss with number of steps during the training process is shown below.
+
+![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/tensorflow_total_loss.png)
+
+##### Step 7: Live detection
 The object_detection .py file opens a video recording for testing the Machine learning model after training. The training is not yet perfect, but still the model is detecting the object most of the time. This can be made more robust by training on a huge dataset generated using the package with more simulated conditions incorporated 
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/MT9juFf1RUI/0.jpg)](http://www.youtube.com/watch?v=MT9juFf1RUI)
