@@ -19,6 +19,7 @@ ASUS Xtion Pro Live RGBD sensor is used to scan the object. For demontration pur
 
 ##### Step 2: Stitch the pointclouds 
 The output from the scan program will be a bunch of pointclouds as shown below.
+![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/scan_output.gif)
 The stitch.py file reads these pointclouds as input and gives out a merged 3D pointcloud of the object scanned as shown below. The code initially use RANSAC algorithm for global registration of the pointcloud and later using ICP algorithm for local registration. The final output will be saved in both .pcd and .ply file formats. The process of stitching is shown below.
 
 ##### Step 3: Surface reconstruction
