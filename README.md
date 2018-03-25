@@ -1,7 +1,6 @@
 # Synthetic dataset generation for machine learning models
-
-This packages generate a huge dataset of fake simulated images of any object scanned by a depth camera, so that machine learning models could be trained on a variety of data to make them more robust. The project package performs following tasks 
-- Scan the object to collect point clouds of an object using RGBD camera from different angles.
+One of the most important problems that are faced by a machine learning, is the time and effort required for collection and preparation of training data. This package generates synthetic datasets for training object recognition models. A huge dataset of fake simulated images of any object scanned by a depth camera is generated, so that machine learning models could be trained on a variety of data to make them more robust. The project package performs following tasks 
+- Scan the object to collect point clouds of the object using RGBD camera from different angles.
 - Stitch the point clouds together to create a 3D point cloud of the object scanned.
 - Create a 3d model from the 3d point cloud using surface reconstruction
 - Generate fake images of the object by simulating different lighting conditions, pose, scale etc of the object using Gazebo.
@@ -13,13 +12,15 @@ This packages generate a huge dataset of fake simulated images of any object sca
 ##### Step 1: Scan the object 
 ASUS Xtion Pro Live RGBD sensor is used to scan the object. For demontration purposes the object was placed on top of a turntable that is rotated with hand to make sure all parts of the object is being scanned. The scanner.cpp program helps in scanning. Once the code is run, a pointcloud visualiser will pop up showing the output of the depth camera. The program provides three option
 
-  - Crop the output :- The user will have to option to crop the output by inputting X, Y, Z limits, so that only the object of interest is scanned.
+  - Crop the output :- The user will have the option to crop the output by inputting X, Y, Z limits, so that only the object of interest is scanned.
   - Start Saving:- Once user is happy with adjusting the cropbox, he can start saving the poinclouds and rotate the object in front of the sensor so that all sides of the object is scanned. The user can pause the saving anytime and resume after that. 
   - Pause Saving:- This option can be used to pause saving the pointclouds. 
 
-##### Step 2: Stitch the pointclouds 
 The output from the scan program will be a bunch of pointclouds as shown below.
 ![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/scan_output.gif)
+
+##### Step 2: Stitch the pointclouds 
+
 The stitch.py file reads these pointclouds as input and gives out a merged 3D pointcloud of the object scanned as shown below. The code initially use RANSAC algorithm for global registration of the pointcloud and later using ICP algorithm for local registration. The final output will be saved in both .pcd and .ply file formats. 
 ![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/merge_output.gif)
 
