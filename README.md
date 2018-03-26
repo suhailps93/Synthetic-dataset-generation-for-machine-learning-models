@@ -44,6 +44,7 @@ Example output images fromthe Gazebo simulationis shown below
 ##### Step 5: Add random backgrounds to Images and prepare the dataset.
 Gazebo give images with empty backgrounds, which is not a good dataset for training object recognition models. The bounding_n_background.py program performs the following tasks.
 - Reads the output images from gazebo, crops out only the object of interest from the images using OpenCV, and paste the cropped objects to random images provided as input, so that the machine learning model will be more robust in recognising the object within a lot of other objects.Some example images are shown below
+![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/bg_output.png)
 - This program also generate a .csv file which have all the data required for training the machine learning model like the bounding box of the object in the image (which is found using OpenCV), dimensions of the image and the label for the object (The name with which the trained model should identify the object)
 
 Now the generate_tfrecord.py program reads the .csv files and generates this data in tfrecord file format, which is the input type that is used for training tensorflow object recognition API.
