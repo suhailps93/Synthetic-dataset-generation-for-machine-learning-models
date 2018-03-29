@@ -18,7 +18,7 @@ import cv2
 cap=cv2.VideoCapture('/home/suhailps/Desktop/winter_project/MLTest.mp4')
 
 # This is needed since the notebook is stored in the object_detection folder.
-sys.path.append("..")
+sys.path.append("/home/suhailps/models/research/object_detection")
 
 
 # ## Object detection imports
