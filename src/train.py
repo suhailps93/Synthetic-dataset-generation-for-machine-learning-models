@@ -39,6 +39,10 @@ Example usage:
         --model_config_path=model_config.pbtxt \
         --train_config_path=train_config.pbtxt \
         --input_config_path=train_input_config.pbtxt
+
+python src/train.py --logtostderr --train_dir=training/ --pipelin
+e_config_path=training/ssd_mobilenet_v1_pets.config
+
 """
 
 import functools

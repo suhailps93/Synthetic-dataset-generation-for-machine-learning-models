@@ -52,8 +52,8 @@ def changebg(imagepath,path):
     width=width*2
     xmin,ymin,xmax,ymax=get_bounding_box(imagepath)
 
-
-    classname='coke_can'
+#read as argument
+    classname='tide'
 
     filename=imagepath[(len(path)+1):]
     value = (filename,width,height,classname,int(xmin),int(ymin),int(xmax),int(ymax))
@@ -128,17 +128,18 @@ def changebg(imagepath,path):
 def main():
     # print (1,2,3,4)
     global bgcount,bgimages
+    os.chdir("../images")
 
     bgpath = os.path.join(os.getcwd(), 'background_images/')
     bgimages=glob.glob(bgpath + '/*.jpg')
 
-    for directory in ['test']:
+    for directory in ['test','train']:
 
-        path = os.path.join(os.getcwd(), 'images/{}'.format(directory))
+        path = os.path.join(os.getcwd(), 'cv_input/{}'.format(directory))
         # print (path)
         xml_df = generate_csv(path)
-        print ("hello")
-        xml_df.to_csv('data/{}_labels.csv'.format(directory), index=None)
+        print (path)
+        xml_df.to_csv('../data/{}_labels.csv'.format(directory), index=None)
         print('Successfully generated bounding boxes.')
 
 

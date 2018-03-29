@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find image_grabber)/worlds/empty_nphysics.world"/>
+
+    <!-- more default parameters can be changed here -->
+  </include>
+  <!-- Spawn a robot into Gazebo -->
+<node name="spawn_coke" pkg="gazebo_ros" type="spawn_model" args="-database coke_can -gazebo -y 1 -model coke_can static=true"  />
+
+<node name="spawn_dae" pkg="gazebo_ros" type="spawn_model" args="-file $(find image_grabber)/models/FL17.dae -dae -z 1 -model ddd" />
+
+<node name="spawn_camera" pkg="gazebo_ros" type="spawn_model" args="-file $(find image_grabber)/models/camera/camera.sdf -gazebo -z 1 -model camera" />
+
+
+<!-- <node name="spawn_logical_camera" pkg="gazebo_ros" type="spawn_model" args="-file $(find image_grabber)/models/logical_camera/logical_camera.sdf -gazebo -z 1 -model logical_camera" /> -->
+
+ <!--  <node name="set_model_state" pkg="image_grabber" type="set_model_state.py" respawn="false"
+    output="screen" /> -->
+</launch>
+

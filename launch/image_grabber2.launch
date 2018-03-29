@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+<!--     <arg name="world_name" value="$(find image_grabber)/worlds/empty_nphysicshadows.world"/> -->
+    <arg name="world_name" value="$(find synthetic_dataset_generation)/worlds/empty_nphysicshadowslights.world"/>
+<!--     <arg name="world_name" value="$(find image_grabber)/worlds/empty_nphysicshadows.world"/> -->
+
+    <shadows>0</shadows>
+
+    <!-- more default parameters can be changed here -->
+  </include>
+  <!-- Spawn a robot into Gazebo -->
+<!-- <node name="spawn_coke" pkg="gazebo_ros" type="spawn_model" args="-database coke_can -gazebo -y 1 -model coke_can static=true"  />
+ -->
+<node name="spawn_camera" pkg="gazebo_ros" type="spawn_model" args="-file $(find synthetic_dataset_generation)/models/camera/camera.sdf -gazebo -z 1 -model camera" />
+
+<node name="spawn_cup" pkg="gazebo_ros" type="spawn_model" args="-file $(find synthetic_dataset_generation)/models/tide/tide.sdf -gazebo z 0.5   -model tide" />
+
+
+<!-- <node name="spawn_cup" pkg="gazebo_ros" type="spawn_model" args="-file $(find image_grabber)/models/cup/cup.sdf -gazebo -z 1 -model cup" /> -->
+
+<!-- <node name="spawn_logical_camera" pkg="gazebo_ros" type="spawn_model" args="-file $(find image_grabber)/models/logical_camera/logical_camera.sdf -gazebo -z 1 -model logical_camera" /> -->
+
+  <node name="set_model_state" pkg="synthetic_dataset_generation" type="set_model_state.py" respawn="false"
+    output="screen" />
+</launch>
+
+

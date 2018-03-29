@@ -1,10 +1,11 @@
 import sys
-sys.path.append("/home/suhailps/Code/Open3D/build/lib")
-sys.path.append("../..")
-from py3d import *
+#path to the directory containing py3d.so
+#sys.path.append("/home/suhailps/Code/Open3D/build/lib")
+# sys.path.append("../..")
+# from py3d import *
 import numpy as np
 import copy
-
+import os
 # global_trans = np.asarray([[1.0, 0.0, 0.0, 0.0],
 # 							[0.0, 1.0, 0.0, 0.0],
 # 							[0.0, 0.0, 1.0, 0.0],
@@ -16,7 +17,7 @@ def trans(source,  transformation):
 	return source
 
 def full():
-	final = PointCloud(read_point_cloud("tide_3m/final.pcd"))
+	final = read_point_cloud("../Pointclouds/scan_output/1.pcd")
 	target = final
 
 
@@ -24,7 +25,7 @@ def full():
 		registration=0
 		print("i=",i)
 
-		src_name="tide_3m/cloud"+str(i+1)+".pcd"
+		src_name="../Pointclouds/scan_output/"+str(i+1)+".pcd"
 		source = read_point_cloud(src_name)
 		print(src_name)
 		# print(tgt_name)
@@ -43,9 +44,9 @@ def full():
 		print "Estimating Normals"
 
 		estimate_normals(source_down, KDTreeSearchParamHybrid(
-				radius = 0.01, max_nn = 30))
+				radius = 0.1, max_nn = 30))
 		estimate_normals(target_down, KDTreeSearchParamHybrid(
-				radius = 0.01, max_nn = 30))
+				radius = 0.1, max_nn = 30))
 
 		print "Computing fpfh"
 
@@ -54,7 +55,7 @@ def full():
 		target_fpfh = compute_fpfh_feature(target_down,
 				KDTreeSearchParamHybrid(radius = 0.25, max_nn = 100))
 		count=1
-		tolerance=0.99
+		tolerance=0.80
 		r=4000
 		while True:
 			print "Ransac registration"
@@ -79,13 +80,13 @@ def full():
 
 			if (result_icp.fitness>tolerance):
 				count=1
-				tolerance=0.99
+				tolerance=0.80
 
 				target=target+trans(source,  result_icp.transformation)
 
 				print("full_0004.pcd tgt down 0.0005")
-				write_point_cloud("full_0005.pcd",target)
-				write_point_cloud("full_0005.ply",target)
+				write_point_cloud("../Pointclouds/merge_output/merged.pcd",target)
+				write_point_cloud("../Pointclouds/merge_output/merged.ply",target)
 
 				break
 
@@ -102,9 +103,63 @@ def full():
                     #     # print"skipping pcd====================== "
                     #     continue
 
+
+def full2():
+	initial_trans=np.identity(4)
+	final = read_point_cloud("../Pointclouds/scan_output/cloud1.pcd")
+	target = final
+
+
+	for i in xrange(1,500):
+		registration=0
+
+		src_name="../Pointclouds/scan_output/cloud"+str(i*3)+".pcd"
+		source = read_point_cloud(src_name)
+		print("Registering cloud"+str(i*3)+".pcd")
+
+		target = voxel_down_sample(target, 0.001)
+		print "Estimating Normals"
+
+
+		estimate_normals(source, search_param = KDTreeSearchParamHybrid(
+			radius = 0.1, max_nn = 30))
+		estimate_normals(target, search_param = KDTreeSearchParamHybrid(
+			radius = 0.1, max_nn = 30))
+
+
+		print "ICP coarse"
+
+		result_icp = registration_colored_icp(source, target,
+			0.001, initial_trans,
+			ICPConvergenceCriteria(relative_fitness = 1e-6,
+			relative_rmse = 1e-6, max_iteration = 50))
+
+		print"ICP  Fitness=",result_icp.fitness
+		print "Colored ICP coarse"
+		initial_trans=result_icp.transformation
+		result_icp_color = registration_colored_icp(source, target,
+			0.001, initial_trans,
+			ICPConvergenceCriteria(relative_fitness = 1e-6,
+			relative_rmse = 1e-6, max_iteration = 50))
+
+		print"ICP color Fitness=",result_icp_color.fitness
+		tolerance=0.98
+		if True:#(result_icp.fitness>tolerance):
+			tolerance=0.80
+
+			target=target+trans(source,  result_icp.transformation)
+			write_point_cloud("../Pointclouds/merge_output/merged.pcd",target)
+			write_point_cloud("../Pointclouds/merge_output/merged.ply",target)
+
+
+
+
+
+
+
 def pairwise():
 
-	final = PointCloud(read_point_cloud("tide_3m/cloud100.pcd"))
+	final = read_point_cloud("../Pointclouds/scan_output/1.pcd")
 	a=[]
 
 	for i in xrange(100,500):
@@ -114,8 +169,8 @@ def pairwise():
 
 
 
-		src_name="tide_3m/cloud"+str(i+1)+".pcd"
-		tgt_name="tide_3m/cloud"+str(i)+".pcd"
+		src_name="../Pointclouds/scan_output/"+str(i+1)+".pcd"
+		tgt_name="../Pointclouds/scan_output/"+str(i)+".pcd"
 
 		source = read_point_cloud(src_name)
 		target = read_point_cloud(tgt_name)
@@ -196,7 +251,7 @@ def pairwise():
 				continue
 
 		print("Inner i=",i)
-		p=read_point_cloud("tide_3m/cloud"+str(i+1)+".pcd")
+		p=read_point_cloud("../Pointclouds/scan_output/"+str(i+1)+".pcd")
 		j=i-101
 		while j>=0:
 
@@ -204,9 +259,26 @@ def pairwise():
 			j=j-1
 		final=final+p
 		print "tide__from_100.pcd pairwise "
-		write_point_cloud("tide__from_100.pcd",final)
-		write_point_cloud("tide__from_100.ply",final)
+		write_point_cloud("../Pointclouds/merge_output/merged.pcd",final)
+		write_point_cloud("../Pointclouds/merge_output/merged.ply",final)
 
 if __name__ == "__main__":
-	full()
+	numArgs = len(sys.argv)
+	if numArgs == 2:
+		# Retrieve the input directory
+		filePath = sys.argv[1]
+
+		# Check input file path exists and is a directory
+		if not os.path.exists(filePath):
+			print 'Filepath does not exist'
+		elif not os.path.isdir(filePath):
+			print 'Filepath is not a directory!'
+		else:
+		# Merge the shapefiles within the filePath
+			sys.path.append(filePath)
+			from py3d import *
+	else:
+		print 'command format = python stitching.py <path to directory containing py3d.so file>'
+
+	full2()
 	# pairwise()
