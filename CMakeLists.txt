@@ -12,4 +12,8 @@ add_definitions(${PCL_DEFINITIONS})
 add_executable (record src/record.cpp)
 target_link_libraries (record ${PCL_LIBRARIES})
 
+add_executable (visualiser src/visualiser.cpp)
+target_link_libraries (visualiser ${PCL_LIBRARIES})
+
+
 
