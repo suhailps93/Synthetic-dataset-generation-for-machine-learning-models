@@ -69,4 +69,4 @@ The graph showing the total loss with number of steps during the training proces
 
 ##### Step 7: Live detection
 The object_detection .py file opens a video recording for testing the Machine learning model after training. The training is not yet perfect, but still the model is detecting the object most of the time. This can be made more robust by training on a huge dataset generated using the package with more simulated conditions incorporated 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/MT9juFf1RUI/0.jpg)](http://www.youtube.com/watch?v=MT9juFf1RUI)
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/w1X17ET0MNY/0.jpg)](http://www.youtube.com/watch?v=w1X17ET0MNY)
