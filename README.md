@@ -32,6 +32,9 @@ The user have optional control overfollowing things while stiching
 The final output will be saved in both .pcd and .ply file formats. 
 ![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/merge_output.gif)
 
+Process of 3D stitching on a human is shown below
+![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/human_stiching.gif)
+
 ##### Step 3: Surface reconstruction
 The code for performing surface reconstruction is yet to be implemented. For time being Meshlab is used. The .ply file is imported in to meshlab and ball pivoting surface reconstruction algorithm is used to reconstruct the surface. A texture map is also generated in the form of a .png file so that the mesh will have color when opened in simulation software like Gazebo. The reconstructed mesh is then exported as a COLLADA file. An example is shown below.
 ![alt text](https://github.com/SuhailPallathSulaiman/Synthetic-dataset-generation-for-machine-learning-models/blob/master/images/Demos/surface_reconstruction_output.gif)
